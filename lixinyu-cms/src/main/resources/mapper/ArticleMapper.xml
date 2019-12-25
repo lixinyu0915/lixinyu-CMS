@@ -21,6 +21,12 @@
 		<if test="article.statusIds!=null">
 			and article.status in (${article.statusIds})
 		</if>
+		<if test="article.tousuStart!=null">
+			and article.tousuCnt &gt;= #{article.tousuStart}
+		</if>
+		<if test="article.tousuEnd!=null">
+			and article.tousuCnt &lt;= #{article.tousuEnd}
+		</if>
 		order by updated desc
 	</select>
 	
@@ -50,7 +56,12 @@
 		order by article.created desc
 	</select>
 	
-	
+	<update id="addTousu">
+		update cms_article
+	    set 
+	      tousuCnt = tousuCnt+1
+	    where id = #{id}
+	</update>
 	<select id="selectById" resultType="Article">
 		select article.*,article.channel_id channelId,article.user_id userId,article.category_id categoryId
 		 from cms_article article where id=#{id}

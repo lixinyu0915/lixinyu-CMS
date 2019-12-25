@@ -3,7 +3,7 @@ package com.lixinyu.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.zhanggm.common.utils.DateUtil;
+import com.lixinyu.commonUtil.DateUtil;
 
 public class User implements Serializable{
     /**   
@@ -36,8 +36,20 @@ public class User implements Serializable{
     private Date updateTime;
     
     private String headimg;
+    
+    private String rememberUser;
+    
+    
    
-    public boolean isAdmin() {
+    public String getRememberUser() {
+		return rememberUser;
+	}
+
+	public void setRememberUser(String rememberUser) {
+		this.rememberUser = rememberUser;
+	}
+
+	public boolean isAdmin() {
     	return "1".equals(getRole());
     }
     

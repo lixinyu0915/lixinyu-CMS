@@ -1,6 +1,6 @@
 package com.lixinyu.common;
 
-import com.zhanggm.common.utils.Md5Util;
+import com.lixinyu.commonUtil.Md5Util;
 
 public class CmsMd5Util {
 	/**

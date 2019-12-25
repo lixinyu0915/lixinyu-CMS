@@ -39,8 +39,8 @@
 	<dependencies>
 	<!-- 依赖自己写的工具包 -->
 		<dependency>
-			 <groupId>com.zhanggm.common.utils</groupId>
-			  <artifactId>common-utils</artifactId>
+			 	<groupId>com.lixinyu.commonUtil</groupId>
+  				<artifactId>commonUtil</artifactId>
 			  <version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<!-- 解决冲突的依赖 -->

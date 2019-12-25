@@ -19,13 +19,17 @@
 	     	</c:forEach>
 	      </select>
 	  </div>
-	  <div class="form-group mx-sm-3 mb-2"  id="status" name="status">
+	  <div class="form-group mx-sm-3 mb-2">
 	     <select class="form-control" id="status" name="status" >
 	        <option value="">请选择审核状态...</option>
 	        <option value="0" <c:if test="${article.status==0 }">selected="selected"</c:if>>未审核</option>
 	        <option value="1" <c:if test="${article.status==1 }">selected="selected"</c:if>>审核通过</option>
 	        <option value="-1" <c:if test="${article.status==-1 }">selected="selected"</c:if>>审核未通过</option>
 	      </select>
+	  </div>
+	  <div class="form-group mx-sm-3 mb-2" >
+	     <input type="text" name="tousuStart" id="tousuStart" value="${article.tousuStart}" class="form-control" placeholder="请输入开始的投诉数">--
+	     <input type="text" name="tousuEnd" id="tousuEnd" value="${article.tousuEnd}" class="form-control" placeholder="请输入结束的投诉数">
 	  </div>
 	  <input type="hidden" name="pageNum" value="${pageInfo.pageNum }">
 	  <button type="button" class="btn btn-primary mb-2" onclick="query()">查询</button>
@@ -39,6 +43,7 @@
       <th scope="col">标题</th>
       <th scope="col">所属频道</th>
       <th scope="col">所属分类</th>
+      <th scope="col">投诉数量</th>
       <th scope="col">是否热点</th>
       <th scope="col">审核状态</th>
       <th scope="col">发布时间</th>
@@ -53,6 +58,7 @@
 	      <td title="${item.title }">${fn:substring(item.title,0,10) }</td>
 	      <td>${item.channelName }</td>
 	      <td>${item.categoryName }</td>
+	      <td>${item.tousuCnt }</td>
 	      <td>${item.hot>0?"是":"否"}</td>
 	      <td>${item.status==1?"已审核":item.status==0?"未审核":"审核未通过"}</td>
 	      <td><fmt:formatDate value="${item.created }" pattern="yyyy-MM-dd HH:mm"/></td>
@@ -60,6 +66,7 @@
 	      	<button type="button" class="btn btn-primary" onclick="check('${item.id}')">审核</button>
 	      	<button type="button" class="btn btn-primary" onclick="addHot('${item.id}')">加热</button>
 	      	<button type="button" class="btn btn-primary" onclick="view('${item.id}')">查看</button>
+	      	<button type="button" class="btn btn-primary" onclick="jinKan('${item.id}')">禁看</button>
 	      </td>
 	    </tr>
    	</c:forEach>
@@ -135,6 +142,15 @@
 		$.post("/admin/article/update/status",data,function(res){
 			$('#checkModal').modal('hide');
 			$('.alert').html("审核通过");
+			$('.alert').show();
+			query();
+		});
+	}
+	
+	function jinKan(id){
+		$.post("/admin/article/update/status",{id:id,status:3},function(res){
+			$('#checkModal').modal('hide');
+			$('.alert').html("已禁止查看");
 			$('.alert').show();
 			query();
 		});

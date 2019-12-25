@@ -46,8 +46,52 @@ public class Article implements Serializable{
     
     private String statusIds;
     
+    private String tousuCnt;
     
-    @Override
+    private Integer tousuStart;
+    
+    private Integer tousuEnd;
+    
+    
+    
+    public Integer getTousuStart() {
+		return tousuStart;
+	}
+
+
+
+	public void setTousuStart(Integer tousuStart) {
+		this.tousuStart = tousuStart;
+	}
+
+
+
+	public Integer getTousuEnd() {
+		return tousuEnd;
+	}
+
+
+
+	public void setTousuEnd(Integer tousuEnd) {
+		this.tousuEnd = tousuEnd;
+	}
+
+
+
+	public void setTousuCnt(String tousuCnt) {
+		this.tousuCnt = tousuCnt;
+	}
+
+
+
+	public String getTousuCnt() {
+		return tousuCnt;
+	}
+
+
+
+
+	@Override
 	public String toString() {
 		return "Article [id=" + id + ", title=" + title + ", picture=" + picture + ", channelId=" + channelId
 				+ ", categoryId=" + categoryId + ", userId=" + userId + ", hits=" + hits + ", hot=" + hot + ", status="

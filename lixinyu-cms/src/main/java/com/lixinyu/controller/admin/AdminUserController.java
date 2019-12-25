@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lixinyu.common.CmsConstant;
 import com.lixinyu.common.CmsMd5Util;
 import com.lixinyu.common.JsonResult;
+import com.lixinyu.commonUtil.StringUtil;
 import com.lixinyu.pojo.User;
 import com.lixinyu.service.UserService;
-import com.zhanggm.common.utils.StringUtil;
 
 @Controller
 @RequestMapping("/admin/user/")

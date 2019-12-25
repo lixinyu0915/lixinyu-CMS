@@ -115,4 +115,10 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleDao.selectNewList(num);
 	}
 
+	@Override
+	public void addTousu(Integer id) {
+		// TODO Auto-generated method stub
+		articleDao.addTousu(id);
+	}
+
 }

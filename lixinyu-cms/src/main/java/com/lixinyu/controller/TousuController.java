@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lixinyu.common.CmsConstant;
 import com.lixinyu.common.JsonResult;
-import com.lixinyu.pojo.Comment;
+import com.lixinyu.pojo.Tousu;
 import com.lixinyu.pojo.User;
-import com.lixinyu.service.CommentService;
+import com.lixinyu.service.TousuService;
 
 @Controller
-@RequestMapping("/comment/")
-public class CommentController {
+@RequestMapping("/tousu/")
+public class TousuController {
 	@Autowired
-	private CommentService commentService;
+	private TousuService tousuService;
 	/**
 	 * @Title: add   
 	 * @Description: 添加评论 
@@ -28,17 +28,16 @@ public class CommentController {
 	 * @throws
 	 */
 	@RequestMapping(value="add",method=RequestMethod.POST)
-	public @ResponseBody JsonResult add(Comment comment,HttpSession session) {
+	public @ResponseBody JsonResult add(Tousu tousu,HttpSession session) {
 		User userInfo = (User)session.getAttribute(CmsConstant.UserSessionKey);
 		if(userInfo==null) {
 			return JsonResult.fail(CmsConstant.unLoginErrorCode, "用户未登录");
 		}
-		comment.setUserid(userInfo.getId());
-		boolean result = commentService.add(comment);
+		tousu.setUserId(userInfo.getId());
+		boolean result = tousuService.add(tousu);
 		if(result) {
 			return JsonResult.sucess();
 		}
 		return JsonResult.fail(10000, "未知错误");
 	}
-	
 }

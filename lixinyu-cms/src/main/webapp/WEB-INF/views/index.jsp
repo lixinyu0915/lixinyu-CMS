@@ -56,7 +56,7 @@
 				  <div class="carousel-inner">
 					  <c:forEach items="${slideList }" var="item" varStatus="s">
 						  <div class="carousel-item <c:if test="${s.index==0 }">active</c:if>">
-						      <a href="${item.url }" target="_blank"><img src="${item.picture }" class="d-block w-100" alt="${item.title }"></a>
+						      <a href="${item.url }" target="_blank"><img src="${item.picture }" style="height: 386px;" class="d-block w-100" alt="${item.title }"></a>
 						  </div>
 					  </c:forEach>
 				  </div>

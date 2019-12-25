@@ -44,8 +44,7 @@
 				<div style="margin-top: 10px;margin-bottom: 10px;font-weight: bold;color: #777;">
 					<span>${user.nickname }</span> 
 					<span><fmt:formatDate value="${article.created}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
-					<span style="font-size: 24px;">收藏</span>
-					<span style="font-size: 24px;">已收藏</span>
+					<span style="font-size: 16px; color: red" onclick="tousuShow()">投诉</span>
 				</div>
 				<div style="font-size: 24">
 					${article.content }
@@ -60,10 +59,10 @@
 						  <div style="margin-top: 10px;">
 						    <button type="button" class="btn btn-primary" onclick="addComment();">评论</button>
 						  </div>
-					</div>
-					
+					</div>	
 				</div>
 			</div>
+			
 			
 			<div class="col-3">
 				<c:if test="${articleList.size()>0 }">
@@ -108,6 +107,8 @@
 				}
 			})
 		}
+		
+		
 	</script>
 </body>
 </html>

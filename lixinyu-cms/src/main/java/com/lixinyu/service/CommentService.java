@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lixinyu.commonUtil.DateUtil;
 import com.lixinyu.dao.CommentDao;
 import com.lixinyu.pojo.Comment;
-import com.zhanggm.common.utils.DateUtil;
 @Service
 public class CommentService {
 	@Autowired
