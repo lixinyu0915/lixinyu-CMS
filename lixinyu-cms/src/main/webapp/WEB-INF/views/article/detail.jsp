@@ -6,8 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="/public/css/bootstrap.min.css" rel="stylesheet">
-<link href="/public/css/index.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/css/index.css" rel="stylesheet">
 <title>${article.title }</title>
 <script type="text/javascript">
 	var articleId = "${id}";
@@ -37,14 +37,17 @@
 			<a class="nav-link" href="/user/login">登录</a>
 		</c:if>
 	</nav>
+	
 	<div class="container-fluid">
+	<h3 style="color: blue">浏览量${hits}</h3> 
 		<div class="row offset-1" style="margin-top: 15px;">
 			<div class="col-7">
 				<h1>${article.title }</h1>
 				<div style="margin-top: 10px;margin-bottom: 10px;font-weight: bold;color: #777;">
 					<span>${user.nickname }</span> 
 					<span><fmt:formatDate value="${article.created}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
-					<span style="font-size: 16px; color: red" onclick="tousuShow()">投诉</span>
+					<span style="font-size: 24px;color: red;" onclick="tousuShow()">投诉</span>
+					<input type="button" value="收藏" onclick="bookmarkAdd(${article.id})">
 				</div>
 				<div style="font-size: 24">
 					${article.content }
@@ -59,10 +62,9 @@
 						  <div style="margin-top: 10px;">
 						    <button type="button" class="btn btn-primary" onclick="addComment();">评论</button>
 						  </div>
-					</div>	
+					</div>
 				</div>
 			</div>
-			
 			
 			<div class="col-3">
 				<c:if test="${articleList.size()>0 }">
@@ -83,9 +85,9 @@
 			</div>
 		</div>
 	</div>
-
-	<script type="text/javascript" src="/public/js/jquery.min.1.12.4.js"></script>
-	<script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.min.1.12.4.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		$.get("/comment/list",{articleId:articleId},function(res){
 			$("#comment").append(res);
@@ -107,7 +109,45 @@
 				}
 			})
 		}
-		
+		function tousuShow() {
+			$.post(
+				"/user/isLogin",
+				null,
+				function(res){
+					if(res.result){
+						$("#tousumodel").modal('show');
+					}else{
+						alert("没有登录，请登录后在投诉");
+						window.location.href="/user/login";
+					}
+				}
+			)
+		}
+		function tousu() {
+			var content = $("#content1").val();
+			$.post(
+				"/tousu/add",
+				{content:content,articleId:articleId},
+				function(res){
+					if(res.result){
+						alert("投诉成功");
+						$("#tousumodel").modal('hide');
+					}else{
+						alert("投诉失败");
+					}
+				}
+			)
+		}
+		function bookmarkAdd(id) {
+			var url="localhost/article/"+id+".html"
+			$.post("/user/bookmarkAdd",{url:url,id:id},function(flag){
+				if(flag){
+					alert("收藏成功")
+				}else{
+					alert("收藏失败")
+				}
+			},"json")
+		}
 		
 	</script>
 </body>

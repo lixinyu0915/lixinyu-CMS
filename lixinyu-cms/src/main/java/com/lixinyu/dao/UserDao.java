@@ -3,10 +3,15 @@ package com.lixinyu.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import com.lixinyu.pojo.User;
 
 public interface UserDao {
+	@Select("select * from cms_user")
+	List<User> selectUser();
+	@Select("select count(*) from cms_user where username=#{username} and password=#{password}")
+	int logins(User user);
 	/**
 	 * @Title: selectById   
 	 * @Description: 根据Id，查询对象   
@@ -79,7 +84,9 @@ public interface UserDao {
 	 * @return: int      
 	 * @throws
 	 */
+	
 	int updateLocked(@Param("userId") Integer userId, @Param("locked")  int locked);
+
 	/**
 	 * @Title: selectByUsername   
 	 * @Description: 根据登录名，查询用户  

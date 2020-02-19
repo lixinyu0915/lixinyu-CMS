@@ -1,5 +1,6 @@
 package com.lixinyu.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -8,9 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.lixinyu.commonUtil.DateUtil;
 import com.lixinyu.dao.CommentDao;
 import com.lixinyu.pojo.Comment;
+
+
 @Service
 public class CommentService {
 	@Autowired
@@ -24,7 +26,7 @@ public class CommentService {
 	 * @throws
 	 */
 	public boolean add(Comment comment) {
-		String createdStr = DateUtil.dateTimeFormat.format(new Date());
+		String createdStr =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		comment.setCreated(createdStr);
 		return commentDao.insert(comment)>0;
 	}

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.lixinyu.dao.SlideDao;
 import com.lixinyu.pojo.Slide;
 
+
 @Service
 public class SlideService {
 	@Autowired

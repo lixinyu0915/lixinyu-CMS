@@ -1,33 +1,28 @@
 package com.lixinyu.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.lixinyu.commonUtil.DateUtil;
 import com.lixinyu.dao.TousuDao;
 import com.lixinyu.pojo.Tousu;
+
 @Service
+@Transactional
 public class TousuService {
 	@Autowired
 	private TousuDao tousuDao;
 	@Autowired
 	private ArticleService articleService;
-	/**
-	 * @Title: add   
-	 * @Description: 添加评论   
-	 * @param: @param comment
-	 * @param: @return      
-	 * @return: boolean      
-	 * @throws
-	 */
 	public boolean add(Tousu tousu) {
-		String createdStr = DateUtil.dateTimeFormat.format(new Date());
-		System.out.println(createdStr);
-		tousu.setCreated(createdStr);
+		// TODO Auto-generated method stub
+		String format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		tousu.setCreated(format);
+		tousuDao.insert(tousu);
 		articleService.addTousu(tousu.getArticleId());
-		return tousuDao.insert(tousu)>0;
+		return true;
 	}
-	
 }

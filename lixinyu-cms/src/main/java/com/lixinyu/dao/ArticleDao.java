@@ -2,9 +2,15 @@ package com.lixinyu.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.lixinyu.pojo.Article;
+import com.lixinyu.pojo.Bookmark;
+import com.lixinyu.pojo.Comment;
 
 public interface ArticleDao {
 	/**
@@ -89,6 +95,7 @@ public interface ArticleDao {
 	 * @throws
 	 */
 	int addHot(@Param("id") Integer id);
+	
 	/**
 	 * @Title: selectByIds   
 	 * @Description: 根据Ids查询文章  
@@ -98,6 +105,7 @@ public interface ArticleDao {
 	 * @throws
 	 */
 	List<Article> selectByIds(@Param("ids") String ids);
+	
 	/**
 	 * @Title: selectListByChannelId   
 	 * @Description: 根据频道Id查询文章   
@@ -128,6 +136,7 @@ public interface ArticleDao {
 	 * @throws
 	 */
 	List<Article> selectListByChannelIdAndCateId(@Param("channelId") Integer channelId, @Param("cateId") Integer cateId);
+	
 	/**
 	 * @Title: selectNewList   
 	 * @Description: 查询最新文章   
@@ -137,13 +146,25 @@ public interface ArticleDao {
 	 * @throws
 	 */
 	List<Article> selectNewList(@Param("num") int num);
-	/**
-	 * 
-	* @Title: addTousu 
-	* @Description: 投诉+1 
-	* @param @param id    设定文件 
-	* @return void    返回类型 
-	* @throws
-	 */
+	
+	
+	@Select("select cms_article.title,cms_comment.* from cms_comment join cms_article on cms_article.id=cms_comment.articleid where userId=#{id}")
+	List<Comment> comment(int id);
+	@Update("update cms_comment set articleid=null where id in(${ids})")
+	int deleteComment(@Param("ids") String ids);
 	void addTousu(Integer id);
+	
+	@Select("select * from cms_article where id=#{id}")
+	Article selectArticle(String string);
+	
+	@Update("update cms_article set hits=hits+1 where id=#{id}")
+	void hits(String id);
+	@Select("select cms_user.username,cms_bookmark.* from cms_bookmark join cms_user on cms_user.id=cms_bookmark.user_id where user_id=#{id}")
+	List<Bookmark> bookmark(Integer id);
+	@Insert("insert into cms_bookmark values(null,#{bookmark.text},#{bookmark.url},#{bookmark.user_id},#{bookmark.created})")
+	int bookmarkAdd(@Param("bookmark")Bookmark bookmark);
+	@Select("select user_id from cms_bookmark where id = #{id}")
+	Bookmark selectBookmarkById(Integer id);
+	@Delete("delete from cms_bookmark where id=#{id}")
+	int bookmarkDel(Integer id);
 }

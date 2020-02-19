@@ -1,45 +1,43 @@
 package com.lixinyu.pojo;
 
-import java.io.Serializable;
-
-public class Category  implements Serializable{
-    /**   
-	 * @Fields serialVersionUID : TODO(这个变量表示什么)   
-	 */  
-	private static final long serialVersionUID = 1L;
-
+public class Category {
 	private Integer id;
-
-    private String name;
-
-    private Integer channelId;
-    
-    @Override
-	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", channelId=" + channelId + "]";
-	}
-
+	private String name;
+	private Integer channel_id;
 	public Integer getId() {
-        return id;
-    }
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Integer getChannel_id() {
+		return channel_id;
+	}
+	public void setChannel_id(Integer channel_id) {
+		this.channel_id = channel_id;
+	}
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", name=" + name + ", channel_id=" + channel_id + "]";
+	}
+	public Category(Integer id, String name, Integer channel_id) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.channel_id = channel_id;
+	}
+	public Category() {
+		super();
+	}
+	
+	
+	
+	
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getChannelId() {
-        return channelId;
-    }
-
-    public void setChannelId(Integer channelId) {
-        this.channelId = channelId;
-    }
 }

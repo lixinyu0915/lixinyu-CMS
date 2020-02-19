@@ -4,6 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.lixinyu.pojo.User;
 
 public interface UserService {
+
+	int logins(User user);
+	
 	/**
 	 * @Title: register   
 	 * @Description: 注册新增用户   
@@ -69,6 +72,7 @@ public interface UserService {
 	 * @throws
 	 */
 	boolean update(User user);
+	
 	/**
 	 * @Title: isExist   
 	 * @Description: 根据用户名判断用户是否存在   
@@ -78,6 +82,7 @@ public interface UserService {
 	 * @throws
 	 */
 	boolean isExist(String username);
+	
 	/**
 	 * @Title: getById   
 	 * @Description: 根据用户Id查询User   
@@ -87,6 +92,4 @@ public interface UserService {
 	 * @throws
 	 */
 	User getById(Integer id);
-	
-	
 }

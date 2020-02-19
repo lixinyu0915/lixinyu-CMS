@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
- <div class="row">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<div class="row">
  	<div class="alert alert-primary col-12" role="alert">
-	  欢迎使用CMS内容管理系统
+ 	<h4>欢迎${username}使用CMS内容管理系统</h4>
 </div>
   <div class="card col-4" style="width: 18rem;">
 	  <ul class="list-group list-group-flush">

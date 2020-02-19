@@ -2,85 +2,97 @@ package com.lixinyu.pojo;
 
 import java.io.Serializable;
 
-public class Comment  implements Serializable{
-    /**   
-	 * @Fields serialVersionUID : TODO(这个变量表示什么)   
-	 */  
-	private static final long serialVersionUID = 1L;
+public class Comment implements Serializable{
+	 /**   
+		 * @Fields serialVersionUID : TODO(这个变量表示什么)   
+		 */  
+		private static final long serialVersionUID = 1L;
 
-	private Integer id;
+		private Integer id;
 
-    private Integer articleid;
+	    private Integer articleid;
 
-    private Integer userid;
+	    private Integer userid;
 
-    private String content;
+	    private String content;
 
-    private String created;
-    
-    private String nickname;
-    private String headimg;
+	    private String created;
+	    
+	    private String nickname;
+	    
+	    private String headimg;
+	    
+	    private String title;
+	    
 
-    @Override
-	public String toString() {
-		return "Comment [id=" + id + ", articleid=" + articleid + ", userid=" + userid + ", content=" + content
-				+ ", created=" + created + "]";
-	}
+	    public String getTitle() {
+			return title;
+		}
 
-	public Integer getId() {
-        return id;
-    }
+		public void setTitle(String title) {
+			this.title = title;
+		}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+		@Override
+		public String toString() {
+			return "Comment [id=" + id + ", articleid=" + articleid + ", userid=" + userid + ", content=" + content
+					+ ", created=" + created + "]";
+		}
 
-    public Integer getArticleid() {
-        return articleid;
-    }
+		public Integer getId() {
+	        return id;
+	    }
 
-    public void setArticleid(Integer articleid) {
-        this.articleid = articleid;
-    }
+	    public void setId(Integer id) {
+	        this.id = id;
+	    }
 
-    public Integer getUserid() {
-        return userid;
-    }
+	    public Integer getArticleid() {
+	        return articleid;
+	    }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
+	    public void setArticleid(Integer articleid) {
+	        this.articleid = articleid;
+	    }
 
-    public String getContent() {
-        return content;
-    }
+	    public Integer getUserid() {
+	        return userid;
+	    }
 
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
+	    public void setUserid(Integer userid) {
+	        this.userid = userid;
+	    }
 
-    public String getCreated() {
-        return created;
-    }
+	    public String getContent() {
+	        return content;
+	    }
 
-    public void setCreated(String created) {
-        this.created = created == null ? null : created.trim();
-    }
+	    public void setContent(String content) {
+	        this.content = content == null ? null : content.trim();
+	    }
 
-	public String getNickname() {
-		return nickname;
-	}
+	    public String getCreated() {
+	        return created;
+	    }
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
+	    public void setCreated(String created) {
+	        this.created = created == null ? null : created.trim();
+	    }
 
-	public String getHeadimg() {
-		return headimg;
-	}
+		public String getNickname() {
+			return nickname;
+		}
 
-	public void setHeadimg(String headimg) {
-		this.headimg = headimg;
-	}
-    
+		public void setNickname(String nickname) {
+			this.nickname = nickname;
+		}
+
+		public String getHeadimg() {
+			return headimg;
+		}
+
+		public void setHeadimg(String headimg) {
+			this.headimg = headimg;
+		}
+
 }

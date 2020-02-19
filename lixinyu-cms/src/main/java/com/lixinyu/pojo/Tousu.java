@@ -1,20 +1,13 @@
 package com.lixinyu.pojo;
-
-import java.io.Serializable;
-
-/** 
-* @ClassName: Tousu 
-* @Description: TODO(这里用一句话描述这个类的作用) 
-* @author A18ccms a18ccms_gmail_com 
-* @date 2019年12月23日 下午8:16:31 
-*  
+/**   
+* @Title: Tousu.java 
+* @Package com.wenjiaquan.cms.pojo 
+* @Description: TODO(用一句话描述该文件做什么) 
+* @author A18ccms A18ccms_gmail_com   
+* @date 2019年12月23日 下午1:46:33 
+* @version V1.0   
 */
-public class Tousu  implements Serializable{
-    /**   
-	 * @Fields serialVersionUID : TODO(这个变量表示什么)   
-	 */  
-	private static final long serialVersionUID = 1L;
-
+public class Tousu {
 	private Integer id;
 
     private Integer articleId;
@@ -24,12 +17,6 @@ public class Tousu  implements Serializable{
     private String content;
 
     private String created;
-
-	@Override
-	public String toString() {
-		return "Tousu [id=" + id + ", articleId=" + articleId + ", userId=" + userId + ", content=" + content
-				+ ", created=" + created + "]";
-	}
 
 	public Integer getId() {
 		return id;
@@ -70,20 +57,5 @@ public class Tousu  implements Serializable{
 	public void setCreated(String created) {
 		this.created = created;
 	}
-
-	public Tousu(Integer id, Integer articleId, Integer userId, String content, String created) {
-		super();
-		this.id = id;
-		this.articleId = articleId;
-		this.userId = userId;
-		this.content = content;
-		this.created = created;
-	}
-
-	public Tousu() {
-		super();
-	}
-
-	
-  
+    
 }

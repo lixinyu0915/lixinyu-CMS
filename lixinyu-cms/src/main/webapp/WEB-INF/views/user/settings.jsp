@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <form>
 	<input type="hidden" name="id" value="${user.id }">
 	<div class="form-group row">
@@ -8,6 +9,7 @@
 			<input type="text" name="nickname" value="${user.nickname }" class="form-control" placeholder="蝈蝈">
 		</div>
 	</div>
+	
 	<div class="form-group row">
 		<label for="inputEmail3" class="col-sm-2 col-form-label">我的头像</label>
 		<div class="col-sm-10">
@@ -27,7 +29,7 @@
 		<label for="inputEmail3" class="col-sm-2 col-form-label">我的性别</label>
 		<div class="col-sm-3">
 			   <div class="form-check">
-				  <input class="form-check-input" type="radio" name="gender" value="1"  <c:if test="${user.gender==1}">checked</c:if>>
+				   <input class="form-check-input" type="radio" name="gender" value="1"  <c:if test="${user.gender==1}">checked</c:if>>
 				  <label class="form-check-label" for="exampleRadios1">男</label>
 			   </div>
 			   <div class="form-check">
@@ -50,7 +52,6 @@
 	<div class="alert alert-danger" role="alert" style="display: none"></div>
 </form>
 <script type="text/javascript">
-	$("#gender").val("${gender}");
 	function save() {
 		$.post("/user/settings",$("form").serialize(),function(res){
 			if(res.result){

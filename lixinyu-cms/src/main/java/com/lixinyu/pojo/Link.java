@@ -2,6 +2,14 @@ package com.lixinyu.pojo;
 
 import java.util.Date;
 
+/**   
+* @Title: Link.java 
+* @Package com.wenjiaquan.cms.pojo 
+* @Description: TODO(用一句话描述该文件做什么) 
+* @author A18ccms A18ccms_gmail_com   
+* @date 2019年12月21日 上午11:19:27 
+* @version V1.0   
+*/
 public class Link {
 	private Integer id;
 	private String text;
@@ -31,6 +39,5 @@ public class Link {
 	public void setCreated(Date created) {
 		this.created = created;
 	}
-	
-	
+
 }

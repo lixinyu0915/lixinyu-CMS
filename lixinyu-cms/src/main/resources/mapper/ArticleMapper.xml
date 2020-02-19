@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lixinyu.dao.ArticleDao">
-  
   <select id="select" resultType="Article">
 		select article.*,article.channel_id channelId,article.user_id userId,article.category_id categoryId,channel.name channelName,cate.name categoryName
 		from cms_article article,cms_channel channel,cms_category cate
 		WHERE article.channel_id=channel.id AND article.category_id=cate.id and article.deleted=0
-		<if test="article.channelId!=null">
+		<if test="article.channelId!=null and article.channelId!=''">
 			and article.channel_id = #{article.channelId}
 		</if>
 		<if test="article.title!=null and article.title!=''">
@@ -21,20 +20,7 @@
 		<if test="article.statusIds!=null">
 			and article.status in (${article.statusIds})
 		</if>
-		<if test="article.tousuStart!=null">
-			and article.tousuCnt &gt;= #{article.tousuStart}
-		</if>
-		<if test="article.tousuEnd!=null">
-			and article.tousuCnt &lt;= #{article.tousuEnd}
-		</if>
 		order by updated desc
-	</select>
-	
-	<select id="selectByHot" resultType="Article">
-		select article.*,article.channel_id channelId,article.user_id userId,article.category_id categoryId,user.nickname
-		from cms_article article,cms_user user
-		WHERE article.user_id=user.id and article.deleted=0 AND article.`status`=1 AND article.hot>0
-		order by article.hot desc
 	</select>
 	
 	<select id="selectNewList" resultType="Article">
@@ -45,6 +31,13 @@
 		limit ${num}
 	</select>
 	
+	<select id="selectByHot" resultType="Article">
+		select article.*,article.channel_id channelId,article.user_id userId,article.category_id categoryId,user.nickname
+		from cms_article article,cms_user user
+		WHERE article.user_id=user.id and article.deleted=0 AND article.`status`=1 AND article.hot>0
+		order by article.hot desc
+	</select>
+
 	<select id="selectListByChannelIdAndCateId" resultType="Article">
 		select article.*,article.channel_id channelId,article.user_id userId,article.category_id categoryId,user.nickname
 		from cms_article article,cms_user user
@@ -56,12 +49,6 @@
 		order by article.created desc
 	</select>
 	
-	<update id="addTousu">
-		update cms_article
-	    set 
-	      tousuCnt = tousuCnt+1
-	    where id = #{id}
-	</update>
 	<select id="selectById" resultType="Article">
 		select article.*,article.channel_id channelId,article.user_id userId,article.category_id categoryId
 		 from cms_article article where id=#{id}
@@ -82,7 +69,7 @@
 		select count(1) from cms_article
 	</select>
 	
-	<insert id="insert" parameterType="com.lixinyu.pojo.Article">
+	<insert id="insert" parameterType="Article" useGeneratedKeys="true" keyProperty="article.id" keyColumn="id">
 		insert into cms_article (title, picture, channel_id, 
 	      category_id, user_id, hits, 
 	      hot, status, deleted, 
@@ -135,5 +122,11 @@
 	    set 
 	      deleted = 1
 	    where id in (${ids})
+	</update>
+	<update id="addTousu">
+		update cms_article
+	    set 
+	      tousuCnt = tousuCnt+1
+	    where id = #{id}
 	</update>
 </mapper>

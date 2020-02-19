@@ -28,7 +28,7 @@ public class SettingController {
 		model.addAttribute("settings", settings);
 		return "admin/settings";
 	}
-	
+
 	@RequestMapping("/settings/save")
 	@ResponseBody
 	public Object save(Model model,Settings settings) {

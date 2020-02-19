@@ -9,20 +9,20 @@
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="selectById" resultType="Link">
 		select * from cms_link where id=#{id}
 	</select>
-	
+
 	<select id="count" resultType="int">
 		select count(1) from cms_link
 	</select>
-	
+
 	<insert id="insert">
 		insert into cms_link (text, url, created)
 	    values (#{link.text}, #{link.url}, #{link.created})
 	</insert>
-	
+
 	<update id="update">
 		update cms_link
 	    set
@@ -30,12 +30,12 @@
 	      url = #{link.url}
 	    where id = #{link.id}
 	</update>
-	
+
 	<delete id="deleteById">
 		delete from cms_link where id=#{id}
 	</delete>
-	
+
 	<delete id="deleteByIds">
 		delete from cms_link where id in(${ids})
 	</delete>
-</mapper>
+</mapper> 

@@ -42,5 +42,4 @@
 			reload();
 		})
 	}
-
 </script>

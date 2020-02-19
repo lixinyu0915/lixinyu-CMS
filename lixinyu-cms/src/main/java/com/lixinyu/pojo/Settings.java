@@ -2,8 +2,8 @@ package com.lixinyu.pojo;
 
 import java.io.Serializable;
 
-public class Settings  implements Serializable{
-    /**   
+public class Settings implements Serializable{
+	/**   
 	 * @Fields serialVersionUID : TODO(这个变量表示什么)   
 	 */  
 	private static final long serialVersionUID = 1L;
@@ -85,4 +85,5 @@ public class Settings  implements Serializable{
     public void setAdminPassword(String adminPassword) {
         this.adminPassword = adminPassword == null ? null : adminPassword.trim();
     }
+
 }

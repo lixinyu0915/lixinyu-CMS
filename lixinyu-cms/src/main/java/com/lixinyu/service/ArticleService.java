@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 import com.lixinyu.pojo.Article;
+import com.lixinyu.pojo.Bookmark;
 import com.lixinyu.pojo.Category;
 import com.lixinyu.pojo.Channel;
+import com.lixinyu.pojo.Comment;
 
 public interface ArticleService {
 	/**
@@ -46,6 +48,7 @@ public interface ArticleService {
 	 * @throws
 	 */
 	public List<Channel> getChannelList();
+	
 	/**
 	 * @Title: getById   
 	 * @Description: 根据id查询文章 
@@ -73,6 +76,7 @@ public interface ArticleService {
 	 * @throws
 	 */
 	List<Category> getCateListByChannelId(Integer channelId);
+	
 	/**
 	 * @Title: delByIds   
 	 * @Description: 批量删除   
@@ -91,6 +95,7 @@ public interface ArticleService {
 	 * @throws
 	 */
 	boolean isAllCheck(String ids);
+	
 	/**
 	 * @Title: getListByChannelId   
 	 * @Description: 根据频道Id查询文章列表   
@@ -120,6 +125,7 @@ public interface ArticleService {
 	 * @throws
 	 */
 	PageInfo<Article> getListByChannelIdAndCateId(Integer channelId, Integer cateId, Integer pageNo);
+
 	/**
 	 * @Title: getNewList   
 	 * @Description: 查询指定条数的最新文章
@@ -129,12 +135,20 @@ public interface ArticleService {
 	 * @throws
 	 */
 	List<Article> getNewList(int num);
-	/**
-	 * @Title: addTousu   
-	 * @Description: 投诉+1  
-	 * @param:       
-	 * @return: void      
-	 * @throws
-	 */
-	void addTousu(Integer id);
+	
+	
+	List<Comment> comment(int id);
+	int deleteComment(String ids);
+	
+	void addTousu(Integer articleid);
+	
+	int kafkaSave(Article article);
+	void hits(String id);
+	
+	List<Bookmark> bookmark(Integer id);
+	
+	boolean bookmarkAdd(Bookmark bookmark);
+	
+	Bookmark selectBookMarkById(Integer id);
+	boolean bookmarkDel(Integer id);
 }

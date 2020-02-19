@@ -15,4 +15,5 @@ public class CmsMd5Test {
 		String string2md5 = CmsMd5Util.string2MD5("admin");
 		System.out.println(string2md5);
 	}
+
 }

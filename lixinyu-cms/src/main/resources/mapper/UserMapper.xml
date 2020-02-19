@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lixinyu.dao.UserDao">
 	<select id="select" resultType="User">
 		select * from cms_user
@@ -23,7 +24,7 @@
 	</select>
 	
 	<select id="count" resultType="int">
-		select count(1) from cms_user
+		select count from cms_user
 	</select>
 	
 	<insert id="insert">

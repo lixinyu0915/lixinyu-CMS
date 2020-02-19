@@ -5,7 +5,7 @@
 	$(document).ready( function(){
 		KindEditor.ready(function(K) {
 			editor = K.create('textarea[name="content1"]', {
-				cssPath : '/public/kindeditor/plugins/code/prettify.css',
+				cssPath : '/kindeditor/plugins/code/prettify.css',
 				uploadJson : '/file/upload',
 				fileManagerJson : '/file/manager',
 				allowFileManager : true,
@@ -25,7 +25,6 @@
 			//prettyPrint();
 		});
 	});
-
 	
 </script>
 <form id="articleForm" name="articleForm">

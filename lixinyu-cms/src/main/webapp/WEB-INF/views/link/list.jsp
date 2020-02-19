@@ -73,7 +73,7 @@
     </div>
   </div>
 </div>
-<script src="/public/js/checkbox.js"></script>
+<script src="<%=request.getContextPath() %>/js/checkbox.js"></script>
 <script>
 	var delId = null;
 	//添加
@@ -113,4 +113,4 @@
 		var params = $("form").serialize();
 		reload(params);
 	}
-</script>
+</script> 

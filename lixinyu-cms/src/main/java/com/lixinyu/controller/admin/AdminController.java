@@ -20,11 +20,9 @@ import com.lixinyu.service.UserService;
 @RequestMapping("/admin/")
 public class AdminController {
 	@Autowired
-	private UserService userService;
-	
+	private UserService userservice;
 	@Autowired
 	private ArticleService articleService;
-	
 	/**
 	 * @Title: login   
 	 * @Description: 后台登录   
@@ -68,7 +66,7 @@ public class AdminController {
 	@RequestMapping("/user")
 	public String user(User user,Model model,
 			@RequestParam(value="pageNum",defaultValue="1") int pageNum,@RequestParam(value="pageSize",defaultValue="3") int pageSize) {
-		PageInfo<User> pageInfo = userService.getPageInfo(user,pageNum,pageSize);
+		PageInfo<User> pageInfo = userservice.getPageInfo(user,pageNum,pageSize);
 		model.addAttribute("pageInfo", pageInfo);
 		return "admin/user";
 	}
@@ -83,7 +81,7 @@ public class AdminController {
 	@RequestMapping("/user/locked")
 	@ResponseBody
 	public boolean locked(Integer userId) {
-		boolean locked = userService.locked(userId);
+		boolean locked = userservice.locked(userId);
 		return locked;
 	}
 	/**
@@ -97,33 +95,29 @@ public class AdminController {
 	@RequestMapping("/user/unLocked")
 	@ResponseBody
 	public boolean unLocked(Integer userId) {
-		boolean locked = userService.unLocked(userId);
+		boolean locked = userservice.unLocked(userId);
 		return locked;
 	}
 	
 	/**
 	 * @Title: article   
-	 * @Description: 文章管理     
-	 * @param: @param article
-	 * @param: @param model
-	 * @param: @param pageNum
-	 * @param: @param pageSize
+	 * @Description: 文章管理  
 	 * @param: @return      
 	 * @return: String      
 	 * @throws
 	 */
 	@RequestMapping("/article")
 	public String article(Article article,Model model,
-			@RequestParam(value="pageNum",defaultValue="1") int pageNum,@RequestParam(value="pageSize",defaultValue="3") int pageSize) {
+			@RequestParam(value="pageNum",defaultValue="1") Integer pageNum,@RequestParam(value="pageSize",defaultValue="3") Integer pageSize) {
 		//设置文章状态
-		article.setStatusIds("0,-1,1");
+				article.setStatusIds("0,-1,1");
+		
 		PageInfo<Article> pageInfo = articleService.getPageInfo(article,pageNum,pageSize);
 		model.addAttribute("pageInfo", pageInfo);
 		List<Channel> channelList = articleService.getChannelList();
 		model.addAttribute("channelList", channelList);
 		return "admin/article";
 	}
-	
 	/**
 	 * @Title: updateArticleStatus   
 	 * @Description: 修改文章状态   
@@ -150,7 +144,4 @@ public class AdminController {
 	public boolean addHot(Article article) {
 		return articleService.addHot(article.getId());
 	}
-	
-	
-
 }

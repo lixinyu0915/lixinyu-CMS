@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -13,36 +14,48 @@ import com.lixinyu.dao.UserDao;
 import com.lixinyu.pojo.User;
 import com.lixinyu.service.UserService;
 
+@Transactional
 @Service
 public class UserServiceImpl implements UserService {
-	
 	@Autowired
-	private UserDao userDao;
+	private UserDao userdao;
+	
+	public List<User> selectUser(){
+		List<User> list=userdao.selectUser();
+		return list;
+	}
 
 	@Override
+	public int logins(User user) {
+		// TODO Auto-generated method stub
+		return userdao.logins(user);
+	}
+	@Override
 	public boolean register(User user) {
+		// TODO Auto-generated method stub
 		user.setCreateTime(new Date());
 		user.setUpdateTime(new Date());
 		user.setPassword(CmsMd5Util.string2MD5(user.getPassword()));
 		user.setLocked(0);
 		user.setScore(0);
 		user.setRole("0");
-		return userDao.insert(user)>0;
+		return userdao.insert(user)>0;
 	}
 
 	@Override
 	public User getByUsername(String username) {
-		return userDao.selectByUsername(username);
+		// TODO Auto-generated method stub
+		return userdao.selectByUsername(username);
 	}
 
 	@Override
 	public boolean locked(Integer userId) {
-		return userDao.updateLocked(userId,1)>0;
+		return userdao.updateLocked(userId,1)>0;
 	}
 
 	@Override
 	public boolean unLocked(Integer userId) {
-		return userDao.updateLocked(userId,0)>0;
+		return userdao.updateLocked(userId,0)>0;
 	}
 
 	@Override
@@ -54,24 +67,23 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public PageInfo<User> getPageInfo(User user, int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
-		List<User> userList = userDao.select(user);
+		List<User> userList = userdao.select(user);
 		return new PageInfo<>(userList);
 	}
-
+	
 	@Override
 	public boolean update(User user) {
 		user.setUpdateTime(new Date());
-		return userDao.update(user)>0;
+		return userdao.update(user)>0;
 	}
-
+	
 	@Override
 	public boolean isExist(String username) {
 		return getByUsername(username)!=null;
 	}
-
+	
 	@Override
 	public User getById(Integer id) {
-		return userDao.selectById(id);
+		return userdao.selectById(id);
 	}
-	
 }

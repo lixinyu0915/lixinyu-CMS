@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.lixinyu.pojo.Comment;
 import com.lixinyu.pojo.Tousu;
 
 public interface TousuDao {
+
 	/**
 	 * @Title: selectById   
 	 * @Description: 根据Id，查询对象   
@@ -15,7 +17,7 @@ public interface TousuDao {
 	 * @return: Comment      
 	 * @throws
 	 */
-	Tousu selectById(@Param("id") Integer id);
+	Comment selectById(@Param("id") Integer id);
 	/**
 	 * @Title: select   
 	 * @Description: 根据Comment查询列表  
@@ -24,7 +26,7 @@ public interface TousuDao {
 	 * @return: List<Comment>      
 	 * @throws
 	 */
-	List<Tousu> select(@Param("tousu") Tousu tousu);
+	List<Comment> select(@Param("tousu") Tousu tousu);
 	/**
 	 * @Title: count   
 	 * @Description: 查询数据条数   
@@ -70,4 +72,5 @@ public interface TousuDao {
 	 * @throws
 	 */
 	int deleteByIds(@Param("ids") String ids);
+
 }

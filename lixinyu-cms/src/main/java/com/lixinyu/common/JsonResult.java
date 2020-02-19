@@ -1,13 +1,6 @@
 package com.lixinyu.common;
 
-import java.io.Serializable;
-
-/**
- * @Description:定义json接口的统一返回结果  
- * @author: zhanggm1002
- * @date:   2019年12月13日 下午3:05:33
- */
-public class JsonResult implements Serializable{
+public class JsonResult {
 	/**   
 	 * @Fields serialVersionUID : TODO(这个变量表示什么)   
 	 */  
@@ -82,5 +75,4 @@ public class JsonResult implements Serializable{
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
 }

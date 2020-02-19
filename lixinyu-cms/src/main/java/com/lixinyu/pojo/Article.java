@@ -3,15 +3,21 @@ package com.lixinyu.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
+@Document(indexName = "cms_article",type = "article")
 public class Article implements Serializable{
 	
-    /**   
+	/**   
 	 * @Fields serialVersionUID : TODO(这个变量表示什么)   
 	 */  
 	private static final long serialVersionUID = 1L;
-
+	@Id
 	private Integer id;
-
+	@Field(index = true,store = true,analyzer = "id_smart",searchAnalyzer = "ik_smart",type = FieldType.text)
     private String title;
 
     private String picture;
@@ -46,82 +52,39 @@ public class Article implements Serializable{
     
     private String statusIds;
     
-    private String tousuCnt;
+    private int tousuCnt;
     
-    private Integer tousuStart;
-    
-    private Integer tousuEnd;
-    
-    
-    
-    public Integer getTousuStart() {
-		return tousuStart;
-	}
-
-
-
-	public void setTousuStart(Integer tousuStart) {
-		this.tousuStart = tousuStart;
-	}
-
-
-
-	public Integer getTousuEnd() {
-		return tousuEnd;
-	}
-
-
-
-	public void setTousuEnd(Integer tousuEnd) {
-		this.tousuEnd = tousuEnd;
-	}
-
-
-
-	public void setTousuCnt(String tousuCnt) {
-		this.tousuCnt = tousuCnt;
-	}
-
-
-
-	public String getTousuCnt() {
+    public int getTousuCnt() {
 		return tousuCnt;
 	}
 
-
-
-
-	@Override
-	public String toString() {
-		return "Article [id=" + id + ", title=" + title + ", picture=" + picture + ", channelId=" + channelId
-				+ ", categoryId=" + categoryId + ", userId=" + userId + ", hits=" + hits + ", hot=" + hot + ", status="
-				+ status + ", deleted=" + deleted + ", created=" + created + ", updated=" + updated + ", commentcnt="
-				+ commentcnt + ", content=" + content + "]";
+	public void setTousuCnt(int tousuCnt) {
+		this.tousuCnt = tousuCnt;
 	}
 
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
     
-    
-	public String getStatusIds() {
+    public String getStatusIds() {
 		return statusIds;
 	}
 
 	public void setStatusIds(String statusIds) {
 		this.statusIds = statusIds;
 	}
-
-
-
-	public String getNickname() {
-		return nickname;
+    
+    @Override
+	public String toString() {
+		return "Article [id=" + id + ", title=" + title + ", picture=" + picture + ", channelId=" + channelId
+				+ ", categoryId=" + categoryId + ", userId=" + userId + ", hits=" + hits + ", hot=" + hot + ", status="
+				+ status + ", deleted=" + deleted + ", created=" + created + ", updated=" + updated + ", commentcnt="
+				+ commentcnt + ", content=" + content + "]";
 	}
-
-
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
-
 
 	public Integer getId() {
         return id;
@@ -252,4 +215,5 @@ public class Article implements Serializable{
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+    
 }

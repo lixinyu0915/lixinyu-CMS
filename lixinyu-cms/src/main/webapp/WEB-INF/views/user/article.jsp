@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
   	<form class="form-inline" id="queryForm">
 	  <div class="form-group mx-sm-3 mb-2">
-	    <input type="text" name="name" class="form-control" placeholder="请输入文章标题">
+	    <input type="text" name="title" class="form-control" placeholder="请输入文章标题">
 	  </div>
 	  <div class="form-group mx-sm-3 mb-2">
 	     <select id="inputState" class="form-control" id="channelId" name="channelId">
@@ -31,7 +32,7 @@
 	  <button type="button" class="btn btn-primary mb-2" onclick="query()">查询</button>
 	</form>
   
-  	<table class="table">
+  	<table class="table" bgcolor="white">
   <thead>
     <tr>
       <th scope="col"><input type="checkbox" value="" id="chkALL" name="chkALL"></th>
@@ -48,7 +49,7 @@
   <tbody>
 	<c:forEach items="${pageInfo.list }" var="item">
        <tr>
-	      <th><input type="checkbox" value="${item.id }"  name="chk_list"></th>
+	      <th><input type="checkbox" value="${item.id }" name="chk_list"></th>
 	      <th scope="row">${item.id }</th>
 	      <td title="${item.title }">${fn:substring(item.title,0,10) }</td>
 	      <td>${item.channelName }</td>
@@ -130,7 +131,7 @@
   </div>
 </div>
 
-<script src="/public/js/checkbox.js?v1.00"></script>
+<script src="<%=request.getContextPath() %>/js/checkbox.js?v1.00"></script>
 <script>
 	function query(){
 		var params = $("form").serialize();
@@ -145,7 +146,6 @@
 		$("[name=pageNum]").val(pageNo);
 		query();
 	}
-	
 	function view(id){
 		window.open("/article/"+id+".html");
 	}

@@ -47,16 +47,18 @@ public class AdminUserController {
 		}
 		//判断密码
 		String string2md5 = CmsMd5Util.string2MD5(user.getPassword());
+		System.out.println(string2md5);
 		if(string2md5.equals(userInfo.getPassword())) {
 			session.setAttribute(CmsConstant.UserAdminSessionKey, userInfo);
+			session.setAttribute("username",userInfo.getUsername());
 			return JsonResult.sucess();
 		}
 		return JsonResult.fail(500, "未知错误");
 	}
-	
+
 	@RequestMapping("logout")
 	public Object logout(HttpServletResponse response,HttpSession session) {
-		session.removeAttribute(CmsConstant.UserAdminSessionKey);
+		session.invalidate();
 		return "redirect:/admin/";
 	}
 }

@@ -1,6 +1,6 @@
 package com.lixinyu.common;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -10,13 +10,14 @@ public class SpringBeanUtils implements ApplicationContextAware{
 	
 	private static ApplicationContext applicationContext = null;
 	
-	@Autowired
-	public void setApplicationContext(ApplicationContext applicationContext) {
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		// TODO Auto-generated method stub
 		if(SpringBeanUtils.applicationContext == null) {
 			SpringBeanUtils.applicationContext = applicationContext;
 		}
 	}
-
+	
 	public static ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
@@ -28,5 +29,4 @@ public class SpringBeanUtils implements ApplicationContextAware{
 	public static <T> T getBean(Class<T> clazz) {
 		return applicationContext.getBean(clazz);
 	}
-
 }

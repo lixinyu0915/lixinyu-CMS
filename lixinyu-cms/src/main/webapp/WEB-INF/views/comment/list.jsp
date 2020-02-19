@@ -1,8 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="row" id="commentList">
-	<c:forEach items="${pageInfo.list }" var="item">
+<c:forEach items="${pageInfo.list }" var="item">
 		<div class="col-10">
 		  <div style="margin-top: 10px;margin-bottom: 10px;color: #777;">
 				<span><img src="${item.headimg }" style="height:28;border-radius: 100px;" alt="">${item.nickname }</span> 

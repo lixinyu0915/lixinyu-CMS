@@ -18,10 +18,10 @@ import com.lixinyu.service.TousuService;
 @RequestMapping("/tousu/")
 public class TousuController {
 	@Autowired
-	private TousuService tousuService;
+	private TousuService toususervice;
 	/**
 	 * @Title: add   
-	 * @Description: 添加评论 
+	 * @Description: 添加投诉 
 	 * @param: @param comment
 	 * @param: @return      
 	 * @return: JsonResult      
@@ -34,7 +34,7 @@ public class TousuController {
 			return JsonResult.fail(CmsConstant.unLoginErrorCode, "用户未登录");
 		}
 		tousu.setUserId(userInfo.getId());
-		boolean result = tousuService.add(tousu);
+		boolean result = toususervice.add(tousu);
 		if(result) {
 			return JsonResult.sucess();
 		}

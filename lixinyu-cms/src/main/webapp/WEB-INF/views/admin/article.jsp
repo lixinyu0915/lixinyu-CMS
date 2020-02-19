@@ -19,7 +19,7 @@
 	     	</c:forEach>
 	      </select>
 	  </div>
-	  <div class="form-group mx-sm-3 mb-2">
+	  <div class="form-group mx-sm-3 mb-2"  id="status" name="status">
 	     <select class="form-control" id="status" name="status" >
 	        <option value="">请选择审核状态...</option>
 	        <option value="0" <c:if test="${article.status==0 }">selected="selected"</c:if>>未审核</option>
@@ -27,15 +27,19 @@
 	        <option value="-1" <c:if test="${article.status==-1 }">selected="selected"</c:if>>审核未通过</option>
 	      </select>
 	  </div>
-	  <div class="form-group mx-sm-3 mb-2" >
-	     <input type="text" name="tousuStart" id="tousuStart" value="${article.tousuStart}" class="form-control" placeholder="请输入开始的投诉数">--
-	     <input type="text" name="tousuEnd" id="tousuEnd" value="${article.tousuEnd}" class="form-control" placeholder="请输入结束的投诉数">
-	  </div>
+	  <div class="form-row">
+      <div class="col">
+      	<input type="text" class="form-control" placeholder="投诉条数" name="tousu1">
+      </div>
+      <div class="col">
+     	 <input type="text" class="form-control" placeholder="到" name="tousu2">
+      </div>
+  </div>
 	  <input type="hidden" name="pageNum" value="${pageInfo.pageNum }">
 	  <button type="button" class="btn btn-primary mb-2" onclick="query()">查询</button>
 	</form>
   
-  	<table class="table">
+  	<table class="table" bgcolor="white">
   <thead>
     <tr>
       <th scope="col"><input type="checkbox" value="" id="chkALL" name="chkALL"></th>
@@ -66,13 +70,16 @@
 	      	<button type="button" class="btn btn-primary" onclick="check('${item.id}')">审核</button>
 	      	<button type="button" class="btn btn-primary" onclick="addHot('${item.id}')">加热</button>
 	      	<button type="button" class="btn btn-primary" onclick="view('${item.id}')">查看</button>
+	      	<c:if test="${item.tousuCnt>=5}">
 	      	<button type="button" class="btn btn-primary" onclick="jinKan('${item.id}')">禁看</button>
+	      	</c:if>
 	      </td>
 	    </tr>
    	</c:forEach>
   </tbody>
 </table>
 <jsp:include page="../common/page.jsp"></jsp:include>
+<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dels()">批量删除</button>
 <div class="alert alert-danger" role="alert" style="display: none"></div>
 
 <div class="modal" tabindex="-1" role="dialog" id="checkModal">
@@ -108,8 +115,26 @@
     </div>
   </div>
 </div>
-
-<script src="/public/js/checkbox.js"></script>
+<div class="modal" tabindex="-1" role="dialog" id="delModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">确认框</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        	你确认删除选择的数据吗？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" onclick="batchDel();">确认删除</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="<%=request.getContextPath() %>/js/checkbox.js"></script>
 <script>
 	function query(){
 		var params = $("form").serialize();
@@ -147,6 +172,10 @@
 		});
 	}
 	
+	function view(id){
+		window.open("/article/"+id+".html");
+	}
+	
 	function jinKan(id){
 		$.post("/admin/article/update/status",{id:id,status:3},function(res){
 			$('#checkModal').modal('hide');
@@ -155,9 +184,17 @@
 			query();
 		});
 	}
-	
-	function view(id){
-		window.open("/article/"+id+".html");
+	function dels() {
+		var ids = getCheckboxIds();
+		$.post("/article/delByIds",{ids:ids},function(res){
+			if(res.result){
+				$('#delModal').modal('hide');
+				query();
+			}else{
+				$(".alert").html(res.message);
+				$(".alert").show();
+				$('#delModal').modal('hide');
+			}
+		});
 	}
-	
 </script>

@@ -1,55 +1,63 @@
 package com.lixinyu.pojo;
 
-import java.io.Serializable;
-
-public class ArticleVote  implements Serializable{
-    /**   
-	 * @Fields serialVersionUID : TODO(这个变量表示什么)   
-	 */  
-	private static final long serialVersionUID = 1L;
-
+public class ArticleVote {
 	private Integer id;
-
-    private Integer articleId;
-
-    private Integer userId;
-
-    private String option;
-    
-    @Override
-	public String toString() {
-		return "ArticleVote [id=" + id + ", articleId=" + articleId + ", userId=" + userId + ", option=" + option + "]";
-	}
+	
+	private Integer article_id;
+	
+	private Integer user_id;
+	
+	private String option;
 
 	public Integer getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getArticleId() {
-        return articleId;
-    }
+	public Integer getArticle_id() {
+		return article_id;
+	}
 
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
-    }
+	public void setArticle_id(Integer article_id) {
+		this.article_id = article_id;
+	}
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public Integer getUser_id() {
+		return user_id;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public void setUser_id(Integer user_id) {
+		this.user_id = user_id;
+	}
 
-    public String getOption() {
-        return option;
-    }
+	public String getOption() {
+		return option;
+	}
 
-    public void setOption(String option) {
-        this.option = option == null ? null : option.trim();
-    }
+	public void setOption(String option) {
+		this.option = option;
+	}
+
+	public ArticleVote(Integer id, Integer article_id, Integer user_id, String option) {
+		super();
+		this.id = id;
+		this.article_id = article_id;
+		this.user_id = user_id;
+		this.option = option;
+	}
+
+	public ArticleVote() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "Article_vote [id=" + id + ", article_id=" + article_id + ", user_id=" + user_id + ", option=" + option
+				+ "]";
+	}
+	
+	
 }

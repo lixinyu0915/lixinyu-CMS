@@ -4,27 +4,40 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lixinyu.commonUtil.StringUtil;
 import com.lixinyu.dao.ArticleDao;
+import com.lixinyu.dao.ArticleRepository;
 import com.lixinyu.dao.CategoryDao;
 import com.lixinyu.dao.ChannelDao;
 import com.lixinyu.pojo.Article;
+import com.lixinyu.pojo.Bookmark;
 import com.lixinyu.pojo.Category;
 import com.lixinyu.pojo.Channel;
+import com.lixinyu.pojo.Comment;
 import com.lixinyu.service.ArticleService;
+
 @Service
+@Transactional
 public class ArticleServiceImpl implements ArticleService {
+
 	@Autowired
 	private ArticleDao articleDao;
 	@Autowired
 	private ChannelDao channelDao;
 	@Autowired
 	private CategoryDao categoryDao;
-	
-	
+	@Autowired
+	private RedisTemplate<String, Article> redisTemplate;
+	@Autowired
+	private ArticleRepository articleRepository;
 	@Override
 	public PageInfo<Article> getPageInfo(Article article, int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
@@ -32,11 +45,27 @@ public class ArticleServiceImpl implements ArticleService {
 		return new PageInfo<>(articleList);
 	}
 
-	@Override
-	public boolean updateStatus(Integer id, int status) {
-		return articleDao.updateStatus(id, status)>0;
-	}
-
+	/*
+	 * @Override public boolean updateStatus(Integer id, int status) { return
+	 * articleDao.updateStatus(id, status)>0; }
+	 */
+	
+	//使用redis后的文章状态设置
+		@Override
+		public boolean updateStatus(Integer id, int status) {
+			
+			boolean flag = articleDao.updateStatus(id, status)>0;
+			
+			//加判断：一、状态必须是审核通过；二、必须是操作成功的
+			if(status == 1 && flag) {
+				//清空redis中最新文章的key值
+				
+				redisTemplate.delete("article_new");
+			}
+			
+			return flag ;
+		}
+	
 	@Override
 	public boolean addHot(Integer id) {
 		return articleDao.addHot(id)>0;
@@ -46,7 +75,7 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<Channel> getChannelList() {
 		return channelDao.select(null);
 	}
-
+	
 	@Override
 	public Article getById(Integer id) {
 		return articleDao.selectById(id);
@@ -62,9 +91,12 @@ public class ArticleServiceImpl implements ArticleService {
 			article.setHits(0);
 			article.setHot(0);
 			articleDao.insert(article);
+			article.setId(article.getId());
+			articleRepository.save(article);
 		}else {
 			article.setUpdated(new Date());
 			articleDao.update(article);
+			articleRepository.save(article);
 		}
 		return true;
 	}
@@ -73,9 +105,15 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<Category> getCateListByChannelId(Integer channelId) {
 		return categoryDao.selectListByChannelId(channelId);
 	}
-
+	
 	@Override
 	public boolean delByIds(String ids) {
+		String[] split = ids.split(",");
+		for (String string : split) {
+			Article article=articleDao.selectArticle(string);
+			article.setDeleted(1);
+			articleRepository.save(article);
+		}
 		return articleDao.updateDeletedByIds(ids)>0;
 	}
 
@@ -89,30 +127,122 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 		return true;
 	}
-
+	
 	@Override
 	public List<Article> getListByChannelId(Integer channelId, Integer aritcleId, int num) {
 		return articleDao.selectListByChannelId(channelId,aritcleId,num);
 	}
 
-	@Override
-	public PageInfo<Article> getHotList(int pageNum) {
-		PageHelper.startPage(pageNum, 6);
-		List<Article> articleList = articleDao.selectByHot();
-		
-		return new PageInfo<>(articleList);
-	}
+	/*
+	 * @Override public PageInfo<Article> getHotList(int pageNum) {
+	 * PageHelper.startPage(pageNum, 6); List<Article> articleList =
+	 * articleDao.selectByHot();
+	 * 
+	 * return new PageInfo<>(articleList); }
+	 */
+	
+	//使用redis缓存热点文章
+		@Override
+		public PageInfo<Article> getHotList(int pageNum) {
+			//设置每页显示的条数
+			int pageSize = 6;
+			
+			PageInfo<Article> pageInfo = null;
+			
+			//redis模板对象，list操作对象
+			ListOperations<String, Article> opsForList = redisTemplate.opsForList();
+			
+			//第一次访问时，从mysql中查询数据
+			//如何判断第一次，判断redis中有没有对应的key值，没有，则为第一次
+			if(!redisTemplate.hasKey("article_hot")) {
+				
+				//从mysql中获取数据，查询全部数据，所有热点文章
+				List<Article> articleList = articleDao.selectByHot();
+				
+				//存入redis中
+				opsForList.rightPushAll("article_hot", articleList);
+				
+				//查询分页数据
+				PageHelper.startPage(pageNum, pageSize);
+				
+				List<Article> list = articleDao.selectByHot();
+				
+				//创建pageInfo对象
+				pageInfo = new PageInfo<Article>(list);
+				
+			}else {
+				//将数据存入redis中
+				//非第一次时，直接从redis中获取数据，（如果新增了文章，则清空redis，在审核通过处写）
+				
+				//(pageNum - 1) * pageSize    , pageNum * pageSize - 1
+				List<Article> list = opsForList.range("article_hot", (pageNum - 1) * pageSize, pageNum * pageSize - 1);
+				
+				//将list数据封装到Page对象中
+				Page<Article> page_list = new Page<>(pageNum, pageSize);
+				
+				page_list.addAll(list);
+				
+				//获取数据总条数
+				Long total = opsForList.size("article_hot");
+				page_list.setTotal(total);
+				
+				//创建pageInfo对象
+				pageInfo = new PageInfo<Article>(page_list);
+			}
+			
+			return pageInfo;
+		}
 
-	@Override
-	public PageInfo<Article> getListByChannelIdAndCateId(Integer channelId, Integer cateId, Integer pageNum) {
-		PageHelper.startPage(pageNum, 6);
-		List<Article> articleList = articleDao.selectListByChannelIdAndCateId(channelId,cateId);
-		 return new PageInfo<>(articleList);
-	}
-
+		@Override
+		public PageInfo<Article> getListByChannelIdAndCateId(Integer channelId, Integer cateId, Integer pageNum) {
+			PageHelper.startPage(pageNum, 6);
+			List<Article> articleList = articleDao.selectListByChannelIdAndCateId(channelId,cateId);
+			 return new PageInfo<>(articleList);
+		}
+	
+	
+	/*
+	 * @Override public List<Article> getNewList(int num) { return
+	 * articleDao.selectNewList(num); }
+	 */
+	
 	@Override
 	public List<Article> getNewList(int num) {
-		return articleDao.selectNewList(num);
+		//redis模板对象
+		//list类型数据结构
+		ListOperations<String, Article> opsForList = redisTemplate.opsForList();
+		
+		List<Article> list = null;
+		//怎么存入redis中？
+		
+		//第一次访问时，从mysql中查询数据
+		//如何判断第一次，判断redis中有没有对应的key值，没有，则为第一次
+		if(!redisTemplate.hasKey("article_new")) {
+			//从mysql中获取数据
+			list = articleDao.selectNewList(num);
+			
+			//存入redis中
+			opsForList.rightPushAll("article_new", list);
+			
+		}else {
+			//将数据存入redis中
+			//非第一次时，直接从redis中获取数据，（如果新增了文章，则清空redis，在审核通过处写）
+			list = opsForList.range("article_new", 0, -1);
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public List<Comment> comment(int id) {
+		// TODO Auto-generated method stub
+		return articleDao.comment(id);
+	}
+
+	@Override
+	public int deleteComment(String ids) {
+		// TODO Auto-generated method stub
+		return articleDao.deleteComment(ids);
 	}
 
 	@Override
@@ -121,4 +251,52 @@ public class ArticleServiceImpl implements ArticleService {
 		articleDao.addTousu(id);
 	}
 
+	@Override
+	public int kafkaSave(Article article) {
+		// TODO Auto-generated method stub
+		return articleDao.insert(article);
+	}
+
+	@Override
+	public void hits(String id) {
+		// TODO Auto-generated method stub
+		Article a = articleDao.selectById(Integer.parseInt(id));
+		a.setHits(a.getHits()+1);
+		articleRepository.save(a);
+		articleDao.hits(id);
+	}
+
+	@Override
+	public List<Bookmark> bookmark(Integer id) {
+		// TODO Auto-generated method stub
+		return articleDao.bookmark(id);
+	}
+
+	@Override
+	public boolean bookmarkAdd(Bookmark bookmark) {
+		// TODO Auto-generated method stub
+		
+		String url = bookmark.getUrl();
+		if(StringUtil.isHttpUrl(url)) {
+			int j=articleDao.bookmarkAdd(bookmark);
+			return j>0;
+		}else {
+			
+			System.err.println("路径不合法");
+			return false;
+		}
+	}
+
+	@Override
+	public Bookmark selectBookMarkById(Integer id) {
+		// TODO Auto-generated method stub
+		return articleDao.selectBookmarkById(id);
+	}
+
+	@Override
+	public boolean bookmarkDel(Integer id) {
+		// TODO Auto-generated method stub
+		int i=articleDao.bookmarkDel(id);
+		return i>0;
+	}
 }

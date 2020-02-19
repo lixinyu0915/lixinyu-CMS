@@ -2,6 +2,7 @@ package com.lixinyu.common;
 
 import com.lixinyu.commonUtil.Md5Util;
 
+
 public class CmsMd5Util {
 	/**
 	 * @Title: stringToMd5   

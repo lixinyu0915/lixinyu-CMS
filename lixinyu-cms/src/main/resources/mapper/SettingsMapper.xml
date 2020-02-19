@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lixinyu.dao.SettingsDao">
 	<select id="select" resultType="Settings">
-		select id,site_domain siteDomain, site_name siteName, article_list_size articleListSize, 
-	      slide_size slideSize, admin_username adminUsername, admin_password adminPassword 
+		select id,site_domain, site_name, article_list_size, 
+	      slide_size, admin_username, admin_password 
 	     from cms_settings
 	</select>
 	
@@ -23,6 +23,7 @@
 	      #{settings.slideSize}, #{settings.adminUsername}, #{settings.adminPassword}
 	      )
 	</insert>
+	
 	<update id="update">
 		update cms_settings
 	    set site_domain = #{settings.siteDomain},

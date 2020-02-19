@@ -1,35 +1,41 @@
 package com.lixinyu.pojo;
 
-import java.io.Serializable;
-
-public class Tag  implements Serializable{
-    /**   
-	 * @Fields serialVersionUID : TODO(这个变量表示什么)   
-	 */  
-	private static final long serialVersionUID = 1L;
-
+public class Tag {
 	private Integer id;
+	
+	private String tagname;
 
-    private String tagname;
-    
-    @Override
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getTagname() {
+		return tagname;
+	}
+
+	public void setTagname(String tagname) {
+		this.tagname = tagname;
+	}
+
+	@Override
 	public String toString() {
 		return "Tag [id=" + id + ", tagname=" + tagname + "]";
 	}
 
-	public Integer getId() {
-        return id;
-    }
+	public Tag(Integer id, String tagname) {
+		super();
+		this.id = id;
+		this.tagname = tagname;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTagname() {
-        return tagname;
-    }
-
-    public void setTagname(String tagname) {
-        this.tagname = tagname == null ? null : tagname.trim();
-    }
+	public Tag() {
+		super();
+	}
+	
+	
+	
 }

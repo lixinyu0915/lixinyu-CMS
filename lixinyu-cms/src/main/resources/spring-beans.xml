@@ -21,7 +21,7 @@
 
 	<!--2、 指定外部属性文件的位置 -->
 	<context:property-placeholder
-		location="classpath:db.properties" />
+		location="classpath:db.properties"  ignore-unresolvable="true"/>
 
 	<!-- 3.使用druid数据源 连接池 -->
 	<bean id="dataSource" 
@@ -77,7 +77,6 @@
 			expression="execution(* com.lixinyu.service.impl.*.*(..))" id="pointcut" />
 		<!-- 关联事务 -->
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut" />
-
 	</aop:config>
 
 	<!--8 扫描mapper -->
@@ -85,6 +84,13 @@
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- basePackage :mapper接口所在的包 -->
 		<property name="basePackage" value="com.lixinyu.dao"></property>
-
 	</bean>
+	
+	<!-- 导入redis配置文件 -->
+	<import resource="spring-redis.xml"/>
+	
+	<!-- 导入kafka配置文件 -->
+	<import resource="spring-kafka-*.xml"/>
+	
+	<import resource="spring-es.xml"/>
 </beans>

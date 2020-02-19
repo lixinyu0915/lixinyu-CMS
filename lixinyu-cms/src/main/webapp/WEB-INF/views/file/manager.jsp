@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*,java.io.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="org.json.simple.*" %>
 <%
-
 /**
  * KindEditor JSP
  *
@@ -11,14 +12,12 @@
  * 如果您确定直接使用本程序，使用之前请仔细确认相关安全设置。
  *
  */
-
 //根目录路径，可以指定绝对路径，比如 /var/www/attached/
 String rootPath = pageContext.getServletContext().getRealPath("/") + "attached/";
 //根目录URL，可以指定绝对路径，比如 http://www.yoursite.com/attached/
 String rootUrl  = request.getContextPath() + "/attached/";
 //图片扩展名
 String[] fileTypes = new String[]{"gif", "jpg", "jpeg", "png", "bmp"};
-
 String dirName = request.getParameter("dir");
 if (dirName != null) {
 	if(!Arrays.<String>asList(new String[]{"image", "flash", "media", "file"}).contains(dirName)){
@@ -42,10 +41,8 @@ if (!"".equals(path)) {
 	String str = currentDirPath.substring(0, currentDirPath.length() - 1);
 	moveupDirPath = str.lastIndexOf("/") >= 0 ? str.substring(0, str.lastIndexOf("/") + 1) : "";
 }
-
 //排序形式，name or size or type
 String order = request.getParameter("order") != null ? request.getParameter("order").toLowerCase() : "name";
-
 //不允许使用..移动到上一级目录
 if (path.indexOf("..") >= 0) {
 	out.println("Access is not allowed.");
@@ -62,7 +59,6 @@ if(!currentPathFile.isDirectory()){
 	out.println("Directory does not exist.");
 	return;
 }
-
 //遍历目录取的文件信息
 List<Hashtable> fileList = new ArrayList<Hashtable>();
 if(currentPathFile.listFiles() != null) {
@@ -88,7 +84,6 @@ if(currentPathFile.listFiles() != null) {
 		fileList.add(hash);
 	}
 }
-
 if ("size".equals(order)) {
 	Collections.sort(fileList, new SizeComparator());
 } else if ("type".equals(order)) {
@@ -102,7 +97,6 @@ result.put("current_dir_path", currentDirPath);
 result.put("current_url", currentUrl);
 result.put("total_count", fileList.size());
 result.put("file_list", fileList);
-
 response.setContentType("application/json; charset=UTF-8");
 out.println(result.toJSONString());
 %>

@@ -1,12 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="/public/css/bootstrap.min.css" rel="stylesheet">
-<link href="/public/css/index.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/css/index.css" rel="stylesheet">
 <script type="text/javascript">
 	var channelId = '${channelId}';
 	var cateId = '${cateId}';
@@ -14,10 +15,10 @@
 <title>前台首页</title>
 </head>
 <body>
-	<nav class="nav justify-content-start" style="background-color: #222;">
+<nav class="nav justify-content-start" style="background-color: #222;">
 		<c:if test="${USER_SESSION_ID!=null && USER_SESSION_ID.headimg!=null }">
 			<a class="nav-link navbar-brand" href="#">
-				<img src="${USER_SESSION_ID.headimg }" width="30" height="30" alt="">
+				<img src="${USER_SESSION_ID.headimg }" style="border-radius: 15px" width="30" height="30" alt="">
 			</a>
 		</c:if>
 		<c:if test="${USER_SESSION_ID==null || USER_SESSION_ID.headimg==null  }">
@@ -26,6 +27,7 @@
 			</a>
 		</c:if>
 		<c:if test="${USER_SESSION_ID!=null }">
+			<a class="nav-link" href="/admin/">管理员登录</a>
 			<a class="nav-link" href="/user/center">发文</a> 
 			<a class="nav-link" href="/user/center">个人中心</a> 
 			<a class="nav-link" href="javascript:;">${USER_SESSION_ID.nickname }</a>
@@ -35,6 +37,7 @@
 			<a class="nav-link" href="/user/login">登录</a>
 		</c:if>
 	</nav>
+	
 	<div class="container-fluid">
 		<div class="row offset-1" style="margin-top: 15px;">
 			<div class="col-1">
@@ -51,12 +54,22 @@
 				</ul>
 			</div>
 			<div class="col-6">
-				
+				<form action="/article/search" method="post">
+				   <div class="input-group mb-3">
+						<input type="text" name="key" value="${key}" class="form-control"
+							placeholder="请输入要搜索的内容"
+							aria-label="Recipient's username" aria-describedby="button-addon2">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" 
+								id="button-addon2">搜索</button>
+						</div>
+					</div>
+				</form>
 				<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 				  <div class="carousel-inner">
 					  <c:forEach items="${slideList }" var="item" varStatus="s">
 						  <div class="carousel-item <c:if test="${s.index==0 }">active</c:if>">
-						      <a href="${item.url }" target="_blank"><img src="${item.picture }" style="height: 386px;" class="d-block w-100" alt="${item.title }"></a>
+						      <a href="${item.url }" target="_blank"><img src="${item.picture }" class="d-block w-100" alt="${item.title }" style="width: 500px;height: 500px"></a>
 						  </div>
 					  </c:forEach>
 				  </div>
@@ -122,14 +135,15 @@
 		<a class="nav-link" href="javascript:;">友情链接</a>
 	</p>
 	<div class="justify-content-center" style="margin-bottom: 200px;text-align: center;">
-			<a href="#" style="padding-right: 36px;">拉勾网</a>
-			<a href="#" style="padding-right: 36px;">猎聘网</a>
-			<a href="#" style="padding-right: 36px;">中华英才网</a>
-			<a href="#" style="padding-right: 36px;">51Job</a>
+			<a href="https://www.lagou.com/landing-page/pc/communal2.html?utm_source=m_cf_cpt_360_pc1" style="padding-right: 36px;">拉勾网</a>
+			<a href="https://www.liepin.com/event/login/simple/?mscid=s_00_pz0&utm_source=baidu&utm_medium=&utm_campaign=%E6%90%9C%E7%B4%A2&utm_content=%E6%A0%87%E9%A2%98&utm_term=%E4%B8%BB%E6%A0%87%E9%A2%98" style="padding-right: 36px;">猎聘网</a>
+			<a href="http://www.chinahr.com/beijing/jobs/" style="padding-right: 36px;">中华英才网</a>
+			<a href="https://www.51job.com/link.php" style="padding-right: 36px;">51Job</a>
 	</div>
-	<script type="text/javascript" src="/public/js/jquery.min.1.12.4.js"></script>
-	<script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.min.1.12.4.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
+	var cId = "${channelId}";
 		function gotoPage(pageNum){
 			if(channelId==''){
 				window.location.href="/hot/"+pageNum+".html"

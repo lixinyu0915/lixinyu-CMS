@@ -1,15 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cms后台登录</title>
-<link href="/public/css/bootstrap.min.css" rel="stylesheet">
-<link href="/public/css/cms.css" rel="stylesheet">
-<link href="/public/css/index.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/css/cms.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/css/index.css" rel="stylesheet">
 </head>
 <body>
-	<nav class="nav justify-content-start" style="background-color: #222;">
+<nav class="nav justify-content-start" style="background-color: #222;">
 		<a class="nav-link navbar-brand" href="#">
 			<img src="https://v4.bootcss.com/docs/4.3/assets/brand/bootstrap-solid.svg" width="30" height="30" alt="">
 		</a>
@@ -32,7 +34,7 @@
 			    <input type="password" id="password" name="password" class="form-control"  placeholder="请输入密码...">
 			  </div>
 			  <div class="form-group">
-			    <input type="password" id="rePassword" name="rePassword" class="form-control"  placeholder="请输入确认密码...">
+			     <input type="password" id="rePassword" name="rePassword" class="form-control"  placeholder="请输入确认密码...">
 			  </div>
 			  <button type="button" class="btn btn-primary" onclick="login();">注册</button>
 			  <label for="exampleInputPassword1">已有帐号，去<a href="/user/login">登录</a></label>
@@ -40,8 +42,8 @@
 		</div>
 	</div>
 	
-<script type="text/javascript" src="/public/js/jquery.min.1.12.4.js"></script>
-<script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.min.1.12.4.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 	function login(){
 		//空判断
